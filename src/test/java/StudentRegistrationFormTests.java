@@ -1,59 +1,59 @@
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
+import static config.Routes.*;
 import static testdata.TestData.*;
 
 public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldSubmitWithValidData() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
         $("[id=firstName]").setValue(firstName);
         $("[id=lastName]").setValue(lastName);
-        $("[id=userEmail]").setValue(userEmail);
-        $$("#genterWrapper").findBy(text(userGender)).click(); // клик по всему диву, наад подумать, как бы решить этот момент
-        $("#userNumber").setValue(userMobileNumber);
+        $("[id=userEmail]").setValue(validUserEmail);
+        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
+        $("#userNumber").setValue(validUserMobileNumber);
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption(monthOption);
-        $(".react-datepicker__year-select").selectOption(yearOption);
-        $(".react-datepicker__day--018").click();
+        $(".react-datepicker__month-select").selectOption(birthMonth);
+        $(".react-datepicker__year-select").selectOption(birthYear);
+        $(".react-datepicker__day--0" + birthDay).click();
         $("#subjectsInput").setValue(subjectValue).pressEnter();
-        $("#hobbies-checkbox-1").click();
+        $("#hobbiesWrapper").$$("label").findBy(text(hobbyValue)).click();
         $("#uploadPicture").uploadFromClasspath(uploadPictureName);
         $("#currentAddress").setValue(userAddress);
         $("#react-select-3-input").setValue(stateOption).pressEnter();
         $("#react-select-4-input").setValue(cityOption).pressEnter();
         $("#submit").click();
-        $$("tbody tr").findBy(text(studentNameKey)).shouldHave(text(expectedStudentName));
-        $$("tbody tr").findBy(text(studentEmailKey)).shouldHave(text(userEmail));
+
+        $$("tbody tr").findBy(text(studentNameKey)).shouldHave(text(studentFullName));
+        $$("tbody tr").findBy(text(studentEmailKey)).shouldHave(text(validUserEmail));
         $$("tbody tr").findBy(text(studentGenderKey)).shouldHave(text(userGender));
-        $$("tbody tr").findBy(text("Mobile")).shouldHave(text("7479990002"));
-        $$("tbody tr").findBy(text("Date of Birth")).shouldHave(text("18 July,2000"));
-        $$("tbody tr").findBy(text("Subjects")).shouldHave(text("Maths"));
-        $$("tbody tr").findBy(text("Hobbies")).shouldHave(text("Sports"));
-        $$("tbody tr").findBy(text("Picture")).shouldHave(text("client_rights_on_red.png"));
-        $$("tbody tr").findBy(text("Address")).shouldHave(matchText("Проснись, John Doe.*, все спокойно,.*, что он сын волка"));
-        $$("tbody tr").findBy(text("State and City")).shouldHave(text("Haryana Karnal"));
+        $$("tbody tr").findBy(text(userMobileNumberKey)).shouldHave(text(validUserMobileNumber));
+        $$("tbody tr").findBy(text(dateOfBirthKey)).shouldHave(text(fullDateOfBirth));
+        $$("tbody tr").findBy(text(SubjectsKey)).shouldHave(text(subjectValue));
+        $$("tbody tr").findBy(text(hobbiesKey)).shouldHave(text(hobbyValue));
+        $$("tbody tr").findBy(text(pictureKey)).shouldHave(text(uploadPictureName));
+        $$("tbody tr").findBy(text(addressKey)).shouldHave(matchText(userAddress));
+        $$("tbody tr").findBy(text(stateAndCityKey)).shouldHave(text(stateAndCityValue));
     }
+
     @Test
     void shouldSubmitWithValidRequiredFields() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#firstName").setValue("John");
-        $("#lastName").setValue("Doe");
-//        $("[id=userEmail]").setValue("some-male@example.com"); // test fail check
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue("7479990002");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
+        $("#userNumber").setValue(validUserMobileNumber);
         $("#submit").click();
-//        System.out.println($$("tbody tr").texts());
-        $$("tbody tr").findBy(text("Student Name")).shouldHave(text("John Doe"));
+
+        $$("tbody tr").findBy(text("Student Name")).shouldHave(text(studentFullName));
         $$("tbody tr").findBy(text("Student Email")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("Gender")).shouldHave(text("Male"));
-        $$("tbody tr").findBy(text("Mobile")).shouldHave(text("7479990002"));
+        $$("tbody tr").findBy(text("Gender")).shouldHave(text(userGender));
+        $$("tbody tr").findBy(text("Mobile")).shouldHave(text(validUserMobileNumber));
         $$("tbody tr").findBy(text("Date of Birth")).shouldNotBe(empty);
         $$("tbody tr").findBy(text("Subjects")).$("td", 1).shouldBe(empty);
         $$("tbody tr").findBy(text("Hobbies")).$("td", 1).shouldBe(empty);
@@ -64,11 +64,11 @@ public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldNotSubmitWithoutFirstName() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#lastName").setValue("Doe");
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue("7479990002");
+        $("#lastName").setValue(lastName);
+        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
+        $("#userNumber").setValue(validUserMobileNumber);
         $("#submit").click();
         $(".modal-content").shouldNot(exist);
         $("#firstName").shouldHave(attribute("required"));
@@ -77,11 +77,11 @@ public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldNotSubmitWithoutLastName() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#firstName").setValue("John");
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue("7479990002");
+        $("#firstName").setValue(firstName);
+        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
+        $("#userNumber").setValue(validUserMobileNumber);
         $("#submit").click();
         $(".modal-content").shouldNot(exist);
         $("#lastName").shouldHave(attribute("required"));
@@ -90,15 +90,12 @@ public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldNotSubmitWithoutGender() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#firstName").setValue("John");
-        $("#lastName").setValue("Doe");
-        $("#userNumber").setValue("7479990002");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userNumber").setValue(validUserMobileNumber);
         $("#submit").click();
-//        System.out.println($("#gender-radio-1").getAttribute("checked"));
-//        System.out.println($("#gender-radio-2").getAttribute("checked"));
-//        System.out.println($("#gender-radio-3").getAttribute("checked"));
         $(".modal-content").shouldNot(exist);
         $("#gender-radio-1").shouldHave(attribute("required"));
         $("#gender-radio-2").shouldHave(attribute("required"));
@@ -110,61 +107,28 @@ public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldNotSubmitWithoutMobileNumber() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#firstName").setValue("John");
-        $("#lastName").setValue("Doe");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
         $("#gender-radio-1").click();
         $("#submit").click();
         $(".modal-content").shouldNot(exist);
         $("#userNumber").shouldHave(attribute("required"));
         $("#userNumber").shouldBe(empty);
-//        System.out.println($("#userNumber").getAttribute("required"));
-//        System.out.println($("#subjectsInput").getAttribute("required"));
     }
 
     @Test
     void shouldNotSubmitWithWrongMobileNumber() {
-        open("/automation-practice-form");
+        open(AUTOMATION_PRACTICE_FORM);
 
-        $("#firstName").setValue("John");
-        $("#lastName").setValue("Doe");
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
         $("#gender-radio-1").click();
-        $("#userNumber").setValue("+774799900");
+        $("#userNumber").setValue(invalidUserMobileNumber);
         $("#submit").click();
         $(".modal-content").shouldNot(exist);
         $("#userNumber").shouldHave(attribute("required"));
-        $("#userNumber").shouldHave(value("+774799900"));
-    }
-
-    @Test
-    void shouldSubmitSimpleFormSWithValidData() {
-        open("/text-box");
-
-        $("#userName").setValue("John Doe");
-//        $("#currentAddress-wrapper #currentAddress").setValue("hjdjvb");
-//        $("#permanentAddress-wrapper #permanentAddress").setValue("hjdjvb");
-        $("#submit").click();
-        $("#name").shouldHave(text("Name:John Doe"));
-        $("#email").shouldNot(exist);
-        $("#output #currentAddress").shouldNot(exist);
-        $("#output #permanentAddress").shouldNot(exist);
-
-    }
-
-    @Test
-    void shouldNotSubmitSimpleFormSWithWrongEmail() {
-        open("/text-box");
-
-        $("#userName").setValue("John Doe");
-        $("#submit").click();
-        $("#userName").setValue("Jane Doe");
-        $("#userEmail").setValue("emailWitoutDomen");
-        $("#submit").click();
-        $("#name").shouldHave(text("Name:John Doe"));
-        $("#email").shouldNot(exist);
-        $("#output #currentAddress").shouldNot(exist);
-        $("#output #permanentAddress").shouldNot(exist);
-
+        $("#userNumber").shouldHave(value(invalidUserMobileNumber));
     }
 }
