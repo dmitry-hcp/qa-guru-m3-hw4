@@ -1,4 +1,4 @@
-package testdata;
+package qaguru.dmtr.ivnv.testdata;
 
 public class TestData {
     public static String firstName = "Dosym";

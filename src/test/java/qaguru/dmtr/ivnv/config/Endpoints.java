@@ -1,4 +1,4 @@
-package config;
+package qaguru.dmtr.ivnv.config;
 
 public class Endpoints {
     public static String AUTOMATION_PRACTICE_FORM = "/automation-practice-form";

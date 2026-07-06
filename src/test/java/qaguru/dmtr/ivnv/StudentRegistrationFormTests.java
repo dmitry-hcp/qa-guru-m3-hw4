@@ -1,9 +1,11 @@
+package qaguru.dmtr.ivnv;
+
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static config.Routes.*;
-import static testdata.TestData.*;
+import static qaguru.dmtr.ivnv.config.Endpoints.*;
+import static qaguru.dmtr.ivnv.testdata.TestData.*;
 
 public class StudentRegistrationFormTests extends TestBase {
 
