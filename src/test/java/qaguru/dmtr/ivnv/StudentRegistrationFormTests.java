@@ -2,8 +2,6 @@ package qaguru.dmtr.ivnv;
 
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
 import static qaguru.dmtr.ivnv.config.Endpoints.*;
 import static qaguru.dmtr.ivnv.testdata.TestData.*;
 
@@ -11,126 +9,111 @@ public class StudentRegistrationFormTests extends TestBase {
 
     @Test
     void shouldSubmitWithValidData() {
-        open(AUTOMATION_PRACTICE_FORM);
 
-        $("[id=firstName]").setValue(firstName);
-        $("[id=lastName]").setValue(lastName);
-        $("[id=userEmail]").setValue(validUserEmail);
-        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
-        $("#userNumber").setValue(validUserMobileNumber);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption(birthMonth);
-        $(".react-datepicker__year-select").selectOption(birthYear);
-        $(".react-datepicker__day--0" + birthDay).click();
-        $("#subjectsInput").setValue(subjectValue).pressEnter();
-        $("#hobbiesWrapper").$$("label").findBy(text(hobbyValue)).click();
-        $("#uploadPicture").uploadFromClasspath(uploadPictureName);
-        $("#currentAddress").setValue(userAddress);
-        $("#react-select-3-input").setValue(stateOption).pressEnter();
-        $("#react-select-4-input").setValue(cityOption).pressEnter();
-        $("#submit").click();
-
-        $$("tbody tr").findBy(text("Student Name")).shouldHave(text(studentFullName));
-        $$("tbody tr").findBy(text("Student Email")).shouldHave(text(validUserEmail));
-        $$("tbody tr").findBy(text("Gender")).shouldHave(text(userGender));
-        $$("tbody tr").findBy(text("Mobile")).shouldHave(text(validUserMobileNumber));
-        $$("tbody tr").findBy(text("Date of Birth")).shouldHave(text(fullDateOfBirth));
-        $$("tbody tr").findBy(text("Subjects")).shouldHave(text(subjectValue));
-        $$("tbody tr").findBy(text("Hobbies")).shouldHave(text(hobbyValue));
-        $$("tbody tr").findBy(text("Picture")).shouldHave(text(uploadPictureName));
-        $$("tbody tr").findBy(text("Address")).shouldHave(matchText(userAddress));
-        $$("tbody tr").findBy(text("State and City")).shouldHave(text(stateAndCityValue));
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .typeUserLastName(lastName)
+                .typeUserEmail(validUserEmail)
+                .setGender(userGender)
+                .typeUserMobileNumber(validUserMobileNumber)
+                .setBirthDay(birthDay, birthMonth, birthYear)
+                .setSubject(subjectValue)
+                .setHobby(hobbyValue)
+                .uploadPicture(pictureFileName)
+                .typeCurrentAddress(userAddress)
+                .setStateAndCity(stateOption, cityOption)
+                .submitForm()
+                .resultsContainerShouldAppear()
+                .resultsContainerTitleShouldHave("Thanks for submitting the form")
+                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
+                .resultsContainerTableRowShouldHave("Student Email", validUserEmail)
+                .resultsContainerTableRowShouldHave("Gender", userGender)
+                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
+                .resultsContainerTableRowShouldHave("Date of Birth", fullDateOfBirth)
+                .resultsContainerTableRowShouldHave("Subjects", subjectValue)
+                .resultsContainerTableRowShouldHave("Hobbies", hobbyValue)
+                .resultsContainerTableRowShouldHave("Picture", pictureFileName)
+                .resultsContainerTableRowShouldHave("Address", userAddress)
+                .resultsContainerTableRowShouldHave("State and City", stateAndCityValue);
     }
 
     @Test
     void shouldSubmitWithValidRequiredFields() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
-        $("#userNumber").setValue(validUserMobileNumber);
-        $("#submit").click();
-
-        $$("tbody tr").findBy(text("Student Name")).shouldHave(text(studentFullName));
-        $$("tbody tr").findBy(text("Student Email")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("Gender")).shouldHave(text(userGender));
-        $$("tbody tr").findBy(text("Mobile")).shouldHave(text(validUserMobileNumber));
-        $$("tbody tr").findBy(text("Date of Birth")).shouldNotBe(empty);
-        $$("tbody tr").findBy(text("Subjects")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("Hobbies")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("Picture")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("Address")).$("td", 1).shouldBe(empty);
-        $$("tbody tr").findBy(text("State and City")).$("td", 1).shouldBe(empty);
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .typeUserLastName(lastName)
+                .setGender(userGender)
+                .typeUserMobileNumber(validUserMobileNumber)
+                .submitForm()
+                .resultsContainerShouldAppear()
+                .resultsContainerTitleShouldHave("Thanks for submitting the form")
+                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
+                .resultsContainerTableKeyShouldBeEmpty("Student Email")
+                .resultsContainerTableRowShouldHave("Gender", userGender)
+                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
+                .dateOfBirthShouldNotBeEmpty("Date of Birth")
+                .resultsContainerTableKeyShouldBeEmpty("Subjects")
+                .resultsContainerTableKeyShouldBeEmpty("Hobbies")
+                .resultsContainerTableKeyShouldBeEmpty("Picture")
+                .resultsContainerTableKeyShouldBeEmpty("Address")
+                .resultsContainerTableKeyShouldBeEmpty("State and City");
     }
 
     @Test
     void shouldNotSubmitWithoutFirstName() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#lastName").setValue(lastName);
-        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
-        $("#userNumber").setValue(validUserMobileNumber);
-        $("#submit").click();
-        $(".modal-content").shouldNot(exist);
-        $("#firstName").shouldHave(attribute("required"));
-        $("#firstName").shouldBe(empty);
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserLastName(lastName)
+                .setGender(userGender)
+                .typeUserMobileNumber(validUserMobileNumber)
+                .submitForm()
+                .resultsContainerShouldNotExist();
     }
 
     @Test
     void shouldNotSubmitWithoutLastName() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#firstName").setValue(firstName);
-        $("#genterWrapper").$$("label").findBy(text(userGender)).click();
-        $("#userNumber").setValue(validUserMobileNumber);
-        $("#submit").click();
-        $(".modal-content").shouldNot(exist);
-        $("#lastName").shouldHave(attribute("required"));
-        $("#lastName").shouldBe(empty);
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .setGender(userGender)
+                .typeUserMobileNumber(validUserMobileNumber)
+                .submitForm()
+                .resultsContainerShouldNotExist();
     }
 
     @Test
     void shouldNotSubmitWithoutGender() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userNumber").setValue(validUserMobileNumber);
-        $("#submit").click();
-        $(".modal-content").shouldNot(exist);
-        $("#gender-radio-1").shouldHave(attribute("required"));
-        $("#gender-radio-2").shouldHave(attribute("required"));
-        $("#gender-radio-3").shouldHave(attribute("required"));
-        $("#gender-radio-1").shouldNot(selected);
-        $("#gender-radio-2").shouldNot(selected);
-        $("#gender-radio-3").shouldNot(selected);
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .typeUserLastName(lastName)
+                .typeUserMobileNumber(validUserMobileNumber)
+                .submitForm()
+                .resultsContainerShouldNotExist();
     }
 
     @Test
     void shouldNotSubmitWithoutMobileNumber() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#gender-radio-1").click();
-        $("#submit").click();
-        $(".modal-content").shouldNot(exist);
-        $("#userNumber").shouldHave(attribute("required"));
-        $("#userNumber").shouldBe(empty);
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .typeUserLastName(lastName)
+                .setGender(userGender)
+                .submitForm()
+                .resultsContainerShouldNotExist();
     }
 
     @Test
     void shouldNotSubmitWithWrongMobileNumber() {
-        open(AUTOMATION_PRACTICE_FORM);
-
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(invalidUserMobileNumber);
-        $("#submit").click();
-        $(".modal-content").shouldNot(exist);
-        $("#userNumber").shouldHave(attribute("required"));
-        $("#userNumber").shouldHave(value(invalidUserMobileNumber));
+        studentRegistrationFormPage
+                .openPage(AUTOMATION_PRACTICE_FORM)
+                .typeUserFirstName(firstName)
+                .typeUserLastName(lastName)
+                .setGender(userGender)
+                .typeUserMobileNumber(invalidUserMobileNumber)
+                .submitForm()
+                .resultsContainerShouldNotExist();
     }
 }

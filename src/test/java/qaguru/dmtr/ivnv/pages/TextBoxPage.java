@@ -2,11 +2,9 @@ package qaguru.dmtr.ivnv.pages;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byId;
 import static com.codeborne.selenide.Selenide.*;
-import static qaguru.dmtr.ivnv.config.Endpoints.*;
 
 public class TextBoxPage {
     private final SelenideElement userNameInput = $("#userName");
@@ -14,8 +12,8 @@ public class TextBoxPage {
     private final SelenideElement submitButton = ($("#submit"));
     private final SelenideElement outputResults = ($("#output"));
 
-    public TextBoxPage openPage() {
-        open(TEXT_BOX);
+    public TextBoxPage openPage(String path) {
+        open(path);
         executeJavaScript("""
                 document.getElementById('fixedban')?.remove();
                 document.querySelector('footer')?.remove();

@@ -15,7 +15,7 @@ public class TestData {
     public static String fullDateOfBirth = birthDay + " " + birthMonth + "," + birthYear;
     public static String subjectValue = "Maths";
     public static String hobbyValue = "Sports";
-    public static String uploadPictureName = "clients_rights_is_always_true.jpeg";
+    public static String pictureFileName = "clients_rights_is_always_true.jpeg";
     public static String userAddress = "110 Kunaev Street";
     public static String stateOption = "Haryana";
     public static String cityOption = "Karnal";

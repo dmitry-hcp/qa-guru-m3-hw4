@@ -2,6 +2,7 @@ package qaguru.dmtr.ivnv;
 
 import org.junit.jupiter.api.Test;
 
+import static qaguru.dmtr.ivnv.config.Endpoints.*;
 import static qaguru.dmtr.ivnv.testdata.TestData.*;
 
 public class TextBoxTests extends TestBase {
@@ -9,7 +10,7 @@ public class TextBoxTests extends TestBase {
     @Test
     void shouldSubmitSimpleFormSWithValidData() {
         textBoxPage
-                .openPage()
+                .openPage(TEXT_BOX)
                 .typeUserName(studentFullName)
                 .submitForm()
                 .fieldShouldHaveValue("name", "Name:" + studentFullName)
@@ -21,7 +22,7 @@ public class TextBoxTests extends TestBase {
     @Test
     void shouldNotSubmitSimpleFormSWithWrongEmail() {
         textBoxPage
-                .openPage()
+                .openPage(TEXT_BOX)
                 .typeUserName(studentFullName)
                 .submitForm()
                 .typeUserName(studentFullName)
