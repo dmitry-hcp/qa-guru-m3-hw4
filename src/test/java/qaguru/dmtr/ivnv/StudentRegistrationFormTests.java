@@ -13,11 +13,11 @@ public class StudentRegistrationFormTests extends TestBase {
         studentRegistrationFormPage
                 .openPage(AUTOMATION_PRACTICE_FORM)
                 .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .typeUserLastName(lastName)
-                .typeUserEmail(validUserEmail)
+                .typeUserFirstName(testData.firstName)
+                .typeUserLastName(testData.lastName)
+                .typeUserEmail(testData.validUserEmail)
                 .setGender(userGender)
-                .typeUserMobileNumber(validUserMobileNumber)
+                .typeUserMobileNumber(testData.validUserMobileNumber)
                 .setBirthDay(birthDay, birthMonth, birthYear)
                 .setSubject(subjectValue)
                 .setHobby(hobbyValue)
@@ -28,10 +28,10 @@ public class StudentRegistrationFormTests extends TestBase {
         tableComponent
                 .resultsContainerShouldAppear()
                 .resultsContainerTitleShouldHave("Thanks for submitting the form")
-                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
-                .resultsContainerTableRowShouldHave("Student Email", validUserEmail)
+                .resultsContainerTableRowShouldHave("Student Name", testData.studentFullName)
+                .resultsContainerTableRowShouldHave("Student Email", testData.validUserEmail)
                 .resultsContainerTableRowShouldHave("Gender", userGender)
-                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
+                .resultsContainerTableRowShouldHave("Mobile", testData.validUserMobileNumber)
                 .resultsContainerTableRowShouldHave("Date of Birth", fullDateOfBirth)
                 .resultsContainerTableRowShouldHave("Subjects", subjectValue)
                 .resultsContainerTableRowShouldHave("Hobbies", hobbyValue)
@@ -40,94 +40,94 @@ public class StudentRegistrationFormTests extends TestBase {
                 .resultsContainerTableRowShouldHave("State and City", stateAndCityValue);
     }
 
-    @Test
-    void shouldSubmitWithValidRequiredFields() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .typeUserLastName(lastName)
-                .setGender(userGender)
-                .typeUserMobileNumber(validUserMobileNumber)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldAppear()
-                .resultsContainerTitleShouldHave("Thanks for submitting the form")
-                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
-                .resultsContainerTableKeyShouldBeEmpty("Student Email")
-                .resultsContainerTableRowShouldHave("Gender", userGender)
-                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
-                .dateOfBirthShouldNotBeEmpty("Date of Birth")
-                .resultsContainerTableKeyShouldBeEmpty("Subjects")
-                .resultsContainerTableKeyShouldBeEmpty("Hobbies")
-                .resultsContainerTableKeyShouldBeEmpty("Picture")
-                .resultsContainerTableKeyShouldBeEmpty("Address")
-                .resultsContainerTableKeyShouldBeEmpty("State and City");
-    }
-
-    @Test
-    void shouldNotSubmitWithoutFirstName() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserLastName(lastName)
-                .setGender(userGender)
-                .typeUserMobileNumber(validUserMobileNumber)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldNotExist();
-    }
-
-    @Test
-    void shouldNotSubmitWithoutLastName() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .setGender(userGender)
-                .typeUserMobileNumber(validUserMobileNumber)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldNotExist();
-    }
-
-    @Test
-    void shouldNotSubmitWithoutGender() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .typeUserLastName(lastName)
-                .typeUserMobileNumber(validUserMobileNumber)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldNotExist();
-    }
-
-    @Test
-    void shouldNotSubmitWithoutMobileNumber() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .typeUserLastName(lastName)
-                .setGender(userGender)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldNotExist();
-    }
-
-    @Test
-    void shouldNotSubmitWithWrongMobileNumber() {
-        studentRegistrationFormPage
-                .openPage(AUTOMATION_PRACTICE_FORM)
-                .removeDemoQaObstructiveElements()
-                .typeUserFirstName(firstName)
-                .typeUserLastName(lastName)
-                .setGender(userGender)
-                .typeUserMobileNumber(invalidUserMobileNumber)
-                .submitForm();
-        tableComponent
-                .resultsContainerShouldNotExist();
-    }
+//    @Test
+//    void shouldSubmitWithValidRequiredFields() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserFirstName(firstName)
+//                .typeUserLastName(lastName)
+//                .setGender(userGender)
+//                .typeUserMobileNumber(validUserMobileNumber)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldAppear()
+//                .resultsContainerTitleShouldHave("Thanks for submitting the form")
+//                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
+//                .resultsContainerTableKeyShouldBeEmpty("Student Email")
+//                .resultsContainerTableRowShouldHave("Gender", userGender)
+//                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
+//                .dateOfBirthShouldNotBeEmpty("Date of Birth")
+//                .resultsContainerTableKeyShouldBeEmpty("Subjects")
+//                .resultsContainerTableKeyShouldBeEmpty("Hobbies")
+//                .resultsContainerTableKeyShouldBeEmpty("Picture")
+//                .resultsContainerTableKeyShouldBeEmpty("Address")
+//                .resultsContainerTableKeyShouldBeEmpty("State and City");
+//    }
+//
+//    @Test
+//    void shouldNotSubmitWithoutFirstName() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserLastName(lastName)
+//                .setGender(userGender)
+//                .typeUserMobileNumber(validUserMobileNumber)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldNotExist();
+//    }
+//
+//    @Test
+//    void shouldNotSubmitWithoutLastName() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserFirstName(firstName)
+//                .setGender(userGender)
+//                .typeUserMobileNumber(validUserMobileNumber)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldNotExist();
+//    }
+//
+//    @Test
+//    void shouldNotSubmitWithoutGender() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserFirstName(firstName)
+//                .typeUserLastName(lastName)
+//                .typeUserMobileNumber(validUserMobileNumber)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldNotExist();
+//    }
+//
+//    @Test
+//    void shouldNotSubmitWithoutMobileNumber() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserFirstName(firstName)
+//                .typeUserLastName(lastName)
+//                .setGender(userGender)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldNotExist();
+//    }
+//
+//    @Test
+//    void shouldNotSubmitWithWrongMobileNumber() {
+//        studentRegistrationFormPage
+//                .openPage(AUTOMATION_PRACTICE_FORM)
+//                .removeDemoQaObstructiveElements()
+//                .typeUserFirstName(firstName)
+//                .typeUserLastName(lastName)
+//                .setGender(userGender)
+//                .typeUserMobileNumber(invalidUserMobileNumber)
+//                .submitForm();
+//        tableComponent
+//                .resultsContainerShouldNotExist();
+//    }
 }

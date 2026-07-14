@@ -1,15 +1,21 @@
 package qaguru.dmtr.ivnv.testdata;
 
+import net.datafaker.Faker;
+
+import java.util.Locale;
+
 public class TestData {
-    public static String firstName = "Dosym";
-    public static String lastName = "Súleev";
-    public static String studentFullName = firstName + " " + lastName;
-    public static String validUserEmail = "Dos-Mukasan@example.com";
-    public static String invalidUserEmail = "emailWitoutDomen";
+    Faker fakerRu = new Faker(new Locale("ru"));
+    Faker faker = new Faker();
+    public String firstName = fakerRu.name().firstName();
+    public String lastName = fakerRu.name().lastName();
+    public String studentFullName = firstName + " " + lastName;
+    public String validUserEmail = faker.internet().emailAddress();
+    public String invalidUserEmail = firstName + lastName;
     public static String userGender = "Male";
-    public static String validUserMobileNumber = "7479990002";
+    public String validUserMobileNumber = fakerRu.numerify("7#########");
     public static String invalidUserMobileNumber = "747999000";
-    public static String birthMonth = "July";
+//    public String birthMonth = faker.date().;
     public static String birthYear = "2000";
     public static String birthDay = "18";
     public static String fullDateOfBirth = birthDay + " " + birthMonth + "," + birthYear;

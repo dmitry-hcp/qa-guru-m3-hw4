@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import qaguru.dmtr.ivnv.pages.TextBoxPage;
 import qaguru.dmtr.ivnv.pages.StudentRegistrationFormPage;
 import qaguru.dmtr.ivnv.pages.components.TableComponent;
+import qaguru.dmtr.ivnv.testdata.TestData;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -13,6 +14,7 @@ public class TestBase {
     TextBoxPage textBoxPage =  new TextBoxPage();
     StudentRegistrationFormPage studentRegistrationFormPage =  new StudentRegistrationFormPage();
     TableComponent tableComponent = new TableComponent();
+    TestData testData = new TestData();
 
     @BeforeAll
     public static void setup() {
