@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static qaguru.dmtr.ivnv.config.Endpoints.*;
-import static qaguru.dmtr.ivnv.testdata.TestData.*;
 
 public class TextBoxTests extends TestBase {
 
@@ -14,27 +13,27 @@ public class TextBoxTests extends TestBase {
         textBoxPage
                 .openPage(TEXT_BOX)
                 .removeDemoQaObstructiveElements()
-                .typeUserName(testData.studentFullName)
+                .typeUserName(randomTestData.studentFullName)
                 .submitForm()
-                .fieldShouldHaveValue("name", "Name:" + testData.studentFullName)
+                .fieldShouldHaveValue("name", "Name:" + randomTestData.studentFullName)
                 .fieldShouldNotExist("email")
                 .fieldShouldNotExist("currentAddress")
                 .fieldShouldNotExist("permanentAddress");
     }
 
-//    @Test
-//    void shouldNotSubmitSimpleFormSWithWrongEmail() {
-//        textBoxPage
-//                .openPage(TEXT_BOX)
-//                .removeDemoQaObstructiveElements()
-//                .typeUserName(studentFullName)
-//                .submitForm()
-//                .typeUserName(studentFullName)
-//                .typeUserEmail(invalidUserEmail)
-//                .submitForm()
-//                .fieldShouldHaveValue("name", "Name:" + studentFullName)
-//                .fieldShouldNotExist("email")
-//                .fieldShouldNotExist("currentAddress")
-//                .fieldShouldNotExist("permanentAddress");
-//    }
+    @Test
+    void shouldNotSubmitSimpleFormSWithWrongEmail() {
+        textBoxPage
+                .openPage(TEXT_BOX)
+                .removeDemoQaObstructiveElements()
+                .typeUserName(randomTestData.studentFullName)
+                .submitForm()
+                .typeUserName(randomTestData.studentFullName)
+                .typeUserEmail(randomTestData.invalidUserEmail)
+                .submitForm()
+                .fieldShouldHaveValue("name", "Name:" + randomTestData.studentFullName)
+                .fieldShouldNotExist("email")
+                .fieldShouldNotExist("currentAddress")
+                .fieldShouldNotExist("permanentAddress");
+    }
 }
