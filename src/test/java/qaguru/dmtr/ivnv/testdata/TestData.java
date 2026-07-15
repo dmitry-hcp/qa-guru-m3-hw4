@@ -15,7 +15,7 @@ public class TestData {
     public static String userGender = "Male";
     public String validUserMobileNumber = fakerRu.numerify("7#########");
     public static String invalidUserMobileNumber = "747999000";
-//    public String birthMonth = faker.date().;
+    public static String birthMonth = "July";
     public static String birthYear = "2000";
     public static String birthDay = "18";
     public static String fullDateOfBirth = birthDay + " " + birthMonth + "," + birthYear;

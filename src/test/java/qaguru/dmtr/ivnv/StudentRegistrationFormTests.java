@@ -54,15 +54,15 @@ public class StudentRegistrationFormTests extends TestBase {
 //                .resultsContainerShouldAppear()
 //                .resultsContainerTitleShouldHave("Thanks for submitting the form")
 //                .resultsContainerTableRowShouldHave("Student Name", studentFullName)
-//                .resultsContainerTableKeyShouldBeEmpty("Student Email")
+//                .resultsContainerTableValueShouldBeEmpty("Student Email")
 //                .resultsContainerTableRowShouldHave("Gender", userGender)
 //                .resultsContainerTableRowShouldHave("Mobile", validUserMobileNumber)
 //                .dateOfBirthShouldNotBeEmpty("Date of Birth")
-//                .resultsContainerTableKeyShouldBeEmpty("Subjects")
-//                .resultsContainerTableKeyShouldBeEmpty("Hobbies")
-//                .resultsContainerTableKeyShouldBeEmpty("Picture")
-//                .resultsContainerTableKeyShouldBeEmpty("Address")
-//                .resultsContainerTableKeyShouldBeEmpty("State and City");
+//                .resultsContainerTableValueShouldBeEmpty("Subjects")
+//                .resultsContainerTableValueShouldBeEmpty("Hobbies")
+//                .resultsContainerTableValueShouldBeEmpty("Picture")
+//                .resultsContainerTableValueShouldBeEmpty("Address")
+//                .resultsContainerTableValueShouldBeEmpty("State and City");
 //    }
 //
 //    @Test

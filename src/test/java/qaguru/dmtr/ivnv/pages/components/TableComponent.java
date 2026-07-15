@@ -1,7 +1,6 @@
 package qaguru.dmtr.ivnv.pages.components;
 
 import com.codeborne.selenide.SelenideElement;
-import qaguru.dmtr.ivnv.pages.StudentRegistrationFormPage;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
@@ -36,7 +35,7 @@ public class TableComponent {
         return this;
     };
 
-    public TableComponent resultsContainerTableKeyShouldBeEmpty(String key) {
+    public TableComponent resultsContainerTableValueShouldBeEmpty(String key) {
         resultsContainerTable.$(byText(key)).parent().$$("td").get(1).shouldBe(empty);
 
         return this;
