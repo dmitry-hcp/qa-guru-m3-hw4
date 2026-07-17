@@ -21,8 +21,7 @@ public class StudentRegistrationFormTests extends TestBase {
                 .setHobby(randomTestData.hobbyValue)
                 .uploadPicture(randomTestData.pictureFileName)
                 .typeCurrentAddress(randomTestData.userAddress)
-                .setState(randomTestData.stateOption)
-                .setCity()
+                .setStateAndCity(randomTestData.stateOption, randomTestData.cityOption)
                 .submitForm();
         tableComponent
                 .resultsContainerShouldAppear()
@@ -36,7 +35,7 @@ public class StudentRegistrationFormTests extends TestBase {
                 .resultsContainerTableRowShouldHave("Hobbies", randomTestData.hobbyValue)
                 .resultsContainerTableRowShouldHave("Picture", randomTestData.pictureFileName)
                 .resultsContainerTableRowShouldHave("Address", randomTestData.userAddress)
-                .resultsContainerTableRowShouldHave("State and City", randomTestData.stateOption + " " + studentRegistrationFormPage.getSelectedCity());
+                .resultsContainerTableRowShouldHave("State and City", randomTestData.stateAndCityValue);
     }
 
     @Test

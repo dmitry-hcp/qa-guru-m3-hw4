@@ -19,8 +19,8 @@ public class RandomTestData {
     public String validUserEmail = faker.internet().emailAddress();
     public String invalidUserEmail = firstName + lastName;
     public String userGender = faker.options().option("Male", "Female", "Other");
-    public String validUserMobileNumber = fakerRu.numerify("7#########");
-    public String invalidUserMobileNumber = fakerRu.numerify("7########");
+    public String validUserMobileNumber = fakerRu.phoneNumber().subscriberNumber(10);
+    public String invalidUserMobileNumber = fakerRu.phoneNumber().subscriberNumber(9);
     public String hobbyValue = faker.options().option("Sports", "Reading", "Music");
     public String userAddress = fakerRu.address().fullAddress();
 
@@ -65,19 +65,23 @@ public class RandomTestData {
             "Rajasthan"};
     public String stateOption = faker.options().option(states);
 
-//    private final String[] cities = {
-//            "Delhi",
-//            "Gurgaon",
-//            "Noida",
-//            "Agra",
-//            "Lucknow",
-//            "Merrut",
-//            "Karnal",
-//            "Panipat",
-//            "Jaipur",
-//            "Jaiselmer",
-//    };
-//    public String cityValue = faker.options().option(cities);
+    private final String cityOptionNCR = faker.options().option("Delhi", "Gurgaon", "Noida");
+    private final String cityOptionUttarPradesh = faker.options().option("Agra", "Lucknow", "Merrut");
+    private final String cityOptionHaryana = faker.options().option("Karnal", "Panipat");
+    private final String cityOptionRajasthan = faker.options().option("Jaipur", "Jaiselmer");
 
-//    public String stateAndCityValue = stateOption + " " + cityOption;
+    private String selectCity (String state) {
+        return switch (state) {
+            case "NCR" -> cityOptionNCR;
+            case "Uttar Pradesh" -> cityOptionUttarPradesh;
+            case "Haryana" -> cityOptionHaryana;
+            case "Rajasthan" -> cityOptionRajasthan;
+            default ->  throw new AssertionError("Unexpected state: " + state);
+        };
+    };
+
+    public String cityOption = selectCity(stateOption);
+
+
+    public String stateAndCityValue = stateOption + " " + cityOption;
 }
