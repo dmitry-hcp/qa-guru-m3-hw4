@@ -1,7 +1,6 @@
 package qaguru.dmtr.ivnv.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.Keys;
 import qaguru.dmtr.ivnv.pages.components.CalendarComponent;
 
 import static com.codeborne.selenide.Selectors.byText;
@@ -23,7 +22,6 @@ public class StudentRegistrationFormPage {
     private final SelenideElement currentUserAddressInput = $("#currentAddress");
     private final SelenideElement stateSelect = $("#state");
     private final SelenideElement citySelect = $("#city");
-    private String selectedCity;
     private final SelenideElement stateCityContainer = $("#stateCity-wrapper");
     private final SelenideElement submitButton = ($("#submit"));
 
@@ -110,20 +108,15 @@ public class StudentRegistrationFormPage {
         return this;
     };
 
-    public StudentRegistrationFormPage setCity() {
+    public StudentRegistrationFormPage setCity(String city) {
         citySelect.click();
-        actions().sendKeys(Keys.ENTER).perform();
-        selectedCity = citySelect.text();
+        stateCityContainer.$(byText(city)).click();
         return this;
-    };
-
-    public String getSelectedCity() {
-        return selectedCity;
     };
 
     public StudentRegistrationFormPage setStateAndCity(String stateName, String cityName) {
         setState(stateName);
-        setCity();
+        setCity(cityName);
 
         return this;
     };
